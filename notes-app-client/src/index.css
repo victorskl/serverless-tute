@@ -1,0 +1,46 @@
+/* ORIGINAL
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "PT Serif", serif;
+}
+
+/*
+We'll also tweak the styles of the form fields so that the mobile
+browser does not zoom in on them on focus. We just need them to
+have a minimum font size of 16px to prevent the zoom.
+*/
+select.form-control,
+textarea.form-control,
+input.form-control {
+  font-size: 16px;
+}
+/*
+We are also setting the width of the input type file to prevent
+the page on mobile from overflowing and adding a scrollbar.
+*/
+input[type=file] {
+  width: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
