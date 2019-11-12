@@ -14,7 +14,7 @@ Serverless (Functions as a Service) tute
 - Auto-scaling vs PaaS vs FaaS
 - Pay-per-execution Pricing Model
 
-#### TL;DR AWS
+#### TL;DR serverless on AWS
 
 Basically, the key idea for running a serverless application on AWS means:
 - Write/create (usually _server-side_) functions in [AWS Lambda](https://aws.amazon.com/lambda/)
@@ -26,12 +26,9 @@ Optionally,
 
 ### Frameworks
 
-- Node.js based [Serverless Framework](https://en.wikipedia.org/wiki/Serverless_Framework)
-    - https://github.com/serverless/serverless
-    - https://serverless.com/framework/docs/
-    - Tutorials from https://serverless-stack.com
-        - [notes-app-api](notes-app-api)
-        - [notes-app-client](notes-app-client)
-
-- Kubernetes Native Serverless Framework - [Kubeless](https://kubeless.io)
+- Node.js based [Serverless Framework](SERVERLESS.md)
+- AWS SAM 
+    - [Serverless Application Model](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)
+    - [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+- Kubernetes Native Serverless Framework - https://kubeless.io
 
