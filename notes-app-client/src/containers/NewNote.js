@@ -4,6 +4,7 @@ import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./NewNote.css";
 import { API } from "aws-amplify";
+import { s3Upload } from "../libs/awsLib";
 
 /**
  * Add the Create Note Page
@@ -40,7 +41,11 @@ export default function NewNote(props) {
         setIsLoading(true);
 
         try {
-            await createNote({ content });
+            const attachment = file.current
+                ? await s3Upload(file.current)
+                : null;
+
+            await createNote({ content, attachment });
             props.history.push("/");
         } catch (e) {
             alert(e);
