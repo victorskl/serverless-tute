@@ -70,8 +70,9 @@ function App(props) {
         setIsAuthenticating(false);
     }
 
-    function handleLogout() {
-        userHasAuthenticated(false);
+    async function handleLogout() {
+        await Auth.signOut(); // AWS Amplify has a Auth.signOut() method that helps clear session out.
+        userHasAuthenticated(false); // only removing the user session from our app's state
     }
 
     return (
