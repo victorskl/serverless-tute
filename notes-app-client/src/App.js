@@ -27,7 +27,7 @@ function App() {
 export default App;
 */
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
@@ -73,6 +73,7 @@ function App(props) {
     async function handleLogout() {
         await Auth.signOut(); // AWS Amplify has a Auth.signOut() method that helps clear session out.
         userHasAuthenticated(false); // only removing the user session from our app's state
+        props.history.push("/login");
     }
 
     return (
@@ -106,4 +107,11 @@ function App(props) {
     );
 }
 
-export default App;
+/**
+ * However, the App component does not have access to the router props directly since it is not rendered inside a Route component.
+ * To be able to use the router props in our App component we will need to use the withRouter Higher-Order Component (or HOC).
+ * You can read more about the withRouter HOC here.
+ * https://reacttraining.com/react-router/web/api/withRouter
+ */
+//export default App;
+export default withRouter(App);

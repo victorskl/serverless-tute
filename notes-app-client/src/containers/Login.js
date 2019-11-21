@@ -20,6 +20,7 @@ export default function Login(props) {
             await Auth.signIn(email, password);
             console.log("Logged in");
             props.userHasAuthenticated(true);
+            props.history.push("/");
         } catch (e) {
             alert(e.message);
         }
