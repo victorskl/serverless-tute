@@ -26,21 +26,56 @@ function App() {
 
 export default App;
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
+import { Auth } from "aws-amplify";
 
 function App(props) {
+    const [isAuthenticating, setIsAuthenticating] = useState(true); // We start with the value set to true because as we first load our app, it'll start by checking the current authentication state.
     const [isAuthenticated, userHasAuthenticated] = useState(false);
+
+    /**
+     * The useEffect hook take a function and an array of variables. The function will be called every time the component is rendered.
+     * And the array of variables tell React to only re-run our function if the passed in array of variables have changed.
+     * This allows us to control when our function gets run. This has some neat consequences:
+     *      If we don't pass in an array of variables, our hook get's executed everytime our component is rendered.
+     *      If we pass in some variables, on every render React will first check if those variables have changed, before running our function.
+     *      If we pass in an empty list of variables, then it'll only run our function on the FIRST render.
+     * In our case, we only want to check the user's authentication state when our app first loads.
+     * So we'll use the third option; just pass in an empty list of variables — [].
+     */
+    useEffect(() => {
+        onLoad();
+    }, []);
+
+    /**
+     * When we refresh the page, we load the user session from the browser Local Storage (using Amplify)
+     * @returns {Promise<void>}
+     */
+    async function onLoad() {
+        try {
+            await Auth.currentSession(); // The Auth.currentSession() method throws an error No current user if nobody is currently logged in.
+            userHasAuthenticated(true);
+        }
+        catch(e) {
+            if (e !== 'No current user') {
+                alert(e);
+            }
+        }
+
+        setIsAuthenticating(false);
+    }
 
     function handleLogout() {
         userHasAuthenticated(false);
     }
 
     return (
+        !isAuthenticating &&
         <div className="App container">
             <Navbar fluid collapseOnSelect>
                 <Navbar.Header>
