@@ -18,7 +18,8 @@ export default function Login(props) {
         // https://serverless-stack.com/chapters/login-with-aws-cognito.html
         try {
             await Auth.signIn(email, password);
-            alert("Logged in");
+            console.log("Logged in");
+            props.userHasAuthenticated(true);
         } catch (e) {
             alert(e.message);
         }
