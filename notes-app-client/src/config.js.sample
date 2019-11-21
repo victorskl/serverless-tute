@@ -1,6 +1,7 @@
 // https://serverless-stack.com/chapters/configure-aws-amplify.html
 // copy to config.js and configure the values
 export default {
+  MAX_ATTACHMENT_SIZE: 5000000,
   s3: {
     REGION: "YOUR_S3_UPLOADS_BUCKET_REGION",
     BUCKET: "YOUR_S3_UPLOADS_BUCKET_NAME"
