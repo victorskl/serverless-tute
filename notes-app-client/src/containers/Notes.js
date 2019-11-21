@@ -4,6 +4,7 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./Notes.css";
+import { s3Upload } from "../libs/awsLib";
 
 /**
  * Display a Note
@@ -90,6 +91,19 @@ export default function Notes(props) {
         file.current = event.target.files[0];
     }
 
+    /**
+     * Save Changes to a Note
+     * https://serverless-stack.com/chapters/save-changes-to-a-note.html
+     *
+     * @param note
+     * @returns {Promise<any>}
+     */
+    function saveNote(note) {
+        return API.put("notes", `/notes/${props.match.params.id}`, {
+            body: note
+        });
+    }
+
     async function handleSubmit(event) {
         let attachment;
 
@@ -104,6 +118,30 @@ export default function Notes(props) {
         }
 
         setIsLoading(true);
+
+        /**
+         * Save Changes to a Note
+         * https://serverless-stack.com/chapters/save-changes-to-a-note.html
+         *
+         * The code below is doing a couple of things that should be very similar to what we did in the NewNote container.
+         * 1. If there is a file to upload we call s3Upload to upload it and save the key we get from S3. If there isn't then we simply save the existing attachment object, note.attachment.
+         * 2. We save the note by making a PUT request with the note object to /notes/:id where we get the id from props.match.params.id. We use the API.put() method from AWS Amplify.
+         * 3. And on success we redirect the user to the homepage.
+         */
+        try {
+            if (file.current) {
+                attachment = await s3Upload(file.current);
+            }
+
+            await saveNote({
+                content,
+                attachment: attachment || note.attachment
+            });
+            props.history.push("/");
+        } catch (e) {
+            alert(e);
+            setIsLoading(false);
+        }
     }
 
     async function handleDelete(event) {
