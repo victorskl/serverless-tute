@@ -32,7 +32,15 @@ export default function Login(props) {
             console.log("Logged in");
 
             props.userHasAuthenticated(true);
-            props.history.push("/");
+
+            /**
+             * Redirect on Login
+             * https://serverless-stack.com/chapters/redirect-on-login.html
+             *
+             * Commented as redirect on successful login logic move to UnauthenticatedRoute component
+             * with pass in redirect path parameter for destination.
+             */
+            //props.history.push("/");
 
         } catch (e) {
             alert(e.message);
