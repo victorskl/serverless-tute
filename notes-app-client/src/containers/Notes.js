@@ -144,6 +144,16 @@ export default function Notes(props) {
         }
     }
 
+    /**
+     * Delete a Note
+     * https://serverless-stack.com/chapters/delete-a-note.html
+     *
+     * @returns {Promise<any>}
+     */
+    function deleteNote() {
+        return API.del("notes", `/notes/${props.match.params.id}`);
+    }
+
     async function handleDelete(event) {
         event.preventDefault();
 
@@ -156,6 +166,21 @@ export default function Notes(props) {
         }
 
         setIsDeleting(true);
+
+        try {
+            await deleteNote();
+            props.history.push("/");
+        } catch (e) {
+            alert(e);
+            setIsDeleting(false);
+        }
+
+        /**
+         * Again, you might have noticed that we are not deleting the attachment when we are deleting a note.
+         * We are leaving that up to you to keep things simple. Check the AWS Amplify API Docs on how to a
+         * delete file from S3.
+         * https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html#remove
+         */
     }
 
     return (
