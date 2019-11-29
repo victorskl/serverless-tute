@@ -1,11 +1,31 @@
 # Serverless Framework
 
+TL;DR
+
+- "Serverless Framework" is a _serverless-opinionated deployment_ tool. It comes with CLI (`serverless`, also alias `sls`) and, DSL in YAML (i.e. `serverless.yaml`) with additional plugins for how you might deploy your functions. Written in JavaScript for Node.js runtime. 
+- Wording "Framework" part is not about framework as _software framework_, rather _deployment framework_! It may make you ease with the development for "serverless deployment" part of some typical software functions.
+- Under the hood, it transforms all deploy-able artifacts into `CloudFormation` on AWS.
+- If your production has already used `Terraform`, you might want to _limit_ the use of this tool to some extent. e.g. only to deploy Lambda functions and API Gateway resources. Be careful about which resources are managed by which tool, and not to step over inter-dependency of these resources to void cleaner tear down operation.  
+- e.g. it overlaps:
+    - [terraform s3](notes-app-terraform/main.tf) vs [serverless s3](AnomalyInnovations/serverless-stack-demo-api/resources/s3-bucket.yml)
+    - [terraform dynamodb](notes-app-terraform/main.tf) vs [serverless dynamodb](AnomalyInnovations/serverless-stack-demo-api/resources/dynamodb-table.yml)
+    - ...
+
+---
+
 - https://en.wikipedia.org/wiki/Serverless_Framework
 - https://github.com/serverless/serverless
 - https://serverless.com/framework/docs/
+- https://serverless.com/learn/comparisons/
+
+
 - Tutorials from https://serverless-stack.com
     - [notes-app-api](notes-app-api) (simple async/await/promise Node.js backend)
-    - [notes-app-client](notes-app-client) (React.js frontend)
+    - [notes-app-client](notes-app-client) (strip-down React.js frontend)
+- And submodules from [AnomalyInnovations](https://github.com/AnomalyInnovations) for the same tute
+
+> Note: both of these frontend and backend application/functions are just another typical software application, regardless of "Serverless Framework". You may use any tool to deploy these app/functions, regardless of "Serverless Framework".
+
 
 ```
 nvm list
@@ -15,6 +35,7 @@ which npx
 node --version
 npm --version
 npx --version
+
 npm install serverless -g
 npm list -g | grep serverless
 which serverless
@@ -180,5 +201,27 @@ aws dynamodb scan --table-name notes
     "Count": 0,
     "ScannedCount": 0,
     "ConsumedCapacity": null
+}
+```
+
+---
+
+[AWS Lambda CLI](https://docs.aws.amazon.com/cli/latest/reference/lambda/index.html) counterpart:
+
+```
+aws lambda list-functions
+
+aws lambda get-function --function-name notes-app-api-dev-hello
+
+aws lambda invoke --function-name notes-app-api-dev-hello output.json
+{
+    "StatusCode": 200,
+    "ExecutedVersion": "$LATEST"
+}
+
+cat output.json | jq
+{
+  "statusCode": 200,
+  "body": "{\"message\":\"Go Serverless v1.0! Your function executed successfully! (with a delay)\"}"
 }
 ```

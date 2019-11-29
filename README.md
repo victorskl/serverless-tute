@@ -1,34 +1,35 @@
 # serverless-tute
 
-Serverless (Functions as a Service) tute
+Serverless (Functions as a Service -- FaaS) tute
 
 ### Concepts
-- [Functions as a Service - FaaS](https://en.wikipedia.org/wiki/Function_as_a_service)
+
+- [Functions as a Service](https://en.wikipedia.org/wiki/Function_as_a_service)
 - [What is Serverless?](https://serverless-stack.com/chapters/what-is-serverless.html)
 - [What is AWS Lambda?](https://serverless-stack.com/chapters/what-is-aws-lambda.html)
-- [How does Serverless Architectures compare to other deployment technologies](https://serverless.com/learn/comparisons/)
 
-#### Keywords
+Keywords:
+
 - Stateless Functions
 - Cold starts vs Warm starts
 - Auto-scaling vs PaaS vs FaaS
 - Pay-per-execution Pricing Model
 
-#### TL;DR serverless on AWS
+### Serverless on AWS
 
 Basically, the key idea for running a serverless application on AWS means:
-- Write/create (usually _server-side_) functions in [AWS Lambda](https://aws.amazon.com/lambda/)
+- Write/create (usually _server-side_ business logic) functions in [AWS Lambda](https://aws.amazon.com/lambda/)
 - Then use/route HTTP requests through [AWS API Gateway](https://aws.amazon.com/api-gateway/) 
 
 Optionally,
-- If you have a _client-side_ frontend that serving your Lambda backend functions, then you can compile static resources and serve it through [S3](https://aws.amazon.com/s3/) -- with or without [CloudFront](https://aws.amazon.com/cloudfront/).
-- Your backend could be just pure compute function for computation only! Otherwise, use persistence backend stack like [RDS](https://aws.amazon.com/rds/) for database, [DynamoDB](https://aws.amazon.com/dynamodb/) or [DocumentDB](https://aws.amazon.com/documentdb/) for NoSQL. And additionally add message queue like [SQS](https://aws.amazon.com/sqs/) or [EventBridge](https://aws.amazon.com/eventbridge/) in the mix!
+- If you have a _client-side_ frontend that serve your Lambda backend functions, then you can compile static resources and serve it through [S3](https://aws.amazon.com/s3/) -- with or without [CloudFront](https://aws.amazon.com/cloudfront/), or [CloudFlare](https://www.cloudflare.com).
+- Your backend could be just pure compute function. Otherwise, some business logic implementation using persistence backend stack like [RDS](https://aws.amazon.com/rds/) for database, [DynamoDB](https://aws.amazon.com/dynamodb/) or [DocumentDB](https://aws.amazon.com/documentdb/) for NoSQL. And additionally a message queue like [SQS](https://aws.amazon.com/sqs/) or [EventBridge](https://aws.amazon.com/eventbridge/) in the mix!
 
-### Frameworks
+### Approaches
 
 - Node.js based [Serverless Framework](SERVERLESS.md)
 - AWS SAM 
     - [Serverless Application Model](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)
     - [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 - Kubernetes Native Serverless Framework - https://kubeless.io
-
+- [Cloudflare Workers](https://www.cloudflare.com/en-au/products/cloudflare-workers/) 
