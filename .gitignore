@@ -12,3 +12,6 @@ local.txt
 terraform.tfstate.d
 *.auto.tfvars
 terraform.tfvars
+
+node_modules/
+.serverless/

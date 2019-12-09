@@ -1,0 +1,10 @@
+{
+  "path": "/api/info",
+  "queryStringParameters": {
+    "query": ""
+  },
+  "httpMethod": "GET",
+  "headers": {},
+  "body": "",
+  "requestContext": {}
+}
