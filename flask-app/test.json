@@ -1,0 +1,10 @@
+{
+  "path": "/cats",
+  "queryStringParameters": {
+    "query": ""
+  },
+  "httpMethod": "GET",
+  "headers": {},
+  "body": "",
+  "requestContext": {}
+}

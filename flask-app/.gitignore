@@ -1,0 +1,6 @@
+# serverless-wsgi plugin specific drops
+.serverless-wsgi
+serverless_wsgi.py
+wsgi_handler.py
+
+.requirements/

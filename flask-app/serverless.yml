@@ -1,0 +1,19 @@
+service: flask-app
+
+provider:
+  name: aws
+  runtime: python3.7
+
+plugins:
+  - serverless-wsgi
+
+functions:
+  api:
+    handler: wsgi_handler.handler
+    events:
+      - http: ANY /
+      - http: ANY {proxy+}
+
+custom:
+  wsgi:
+    app: api.app
