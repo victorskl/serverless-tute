@@ -2,14 +2,17 @@
 
 TL;DR
 
-- "Serverless Framework" is a _serverless-opinionated deployment_ tool. It comes with CLI (`serverless`, also alias `sls`) and, DSL in YAML (i.e. `serverless.yaml`) with additional plugins for how you might deploy your functions. Written in JavaScript for Node.js runtime. 
+- "Serverless Framework" is a _serverless-application-opinionated deployment_ tool. It comes with CLI (`serverless`, also alias `sls`) and, DSL in YAML (i.e. `serverless.yaml`) with additional plugins for how you might deploy your functions. Written in JavaScript for Node.js runtime. 
 - Wording "Framework" part is not about framework as _software framework_, rather _deployment framework_! It may make you ease with the development for "serverless deployment" part of some typical software functions.
 - Under the hood, it transforms all deploy-able artifacts into `CloudFormation` on AWS.
-- If your production has already used `Terraform`, you might want to _limit_ the use of this tool to some extent. e.g. only to deploy Lambda functions and API Gateway resources. Be careful about which resources are managed by which tool, and not to step over inter-dependency of these resources to void cleaner tear down operation.  
-- e.g. it overlaps:
-    - [terraform s3](notes-app-terraform/main.tf) vs [serverless s3](AnomalyInnovations/serverless-stack-demo-api/resources/s3-bucket.yml)
-    - [terraform dynamodb](notes-app-terraform/main.tf) vs [serverless dynamodb](AnomalyInnovations/serverless-stack-demo-api/resources/dynamodb-table.yml)
-    - ...
+- If your production has already used `Terraform`, you might want to _limit_ the use of this tool to some extent. e.g. only to deploy Lambda functions and API Gateway resources. Be careful about which resources are managed by which tool, and not to step over inter-dependency of these resources to void cleaner tear down operation. Read [The definitive guide to using Terraform with the Serverless Framework](https://serverless.com/blog/definitive-guide-terraform-serverless/) for which does what and, best practices.
+- e.g. Through [`serverless.yaml` resources node](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/serverless.yml#L122), it overlaps:
+    - [terraform s3](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L31) vs [serverless s3](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/s3-bucket.yml)
+    - [terraform dynamodb](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L13) vs [serverless dynamodb](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/dynamodb-table.yml)
+    - [terraform cognito user pool](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L44) vs [serverless cognito user pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-user-pool.yml)
+    - [terraform cognito identity pool](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L62) vs [serverless cognito identity pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-identity-pool.yml)
+    - ... so on, so ford!
+- **Separation of Concerns**: One consideration is that, let Terraform manage on _set-and-go_ part of infrastructure (e.g. Certificate, Database, etc, things that don't change often) and, let Serverless focus on _repetitive_ part of Lambda/FaaS deployment in CI/CD workflow.
 
 ---
 
@@ -22,12 +25,17 @@ TL;DR
 - Tutorials from https://serverless-stack.com
     - [notes-app-api](notes-app-api) (simple async/await/promise Node.js backend)
     - [notes-app-client](notes-app-client) (strip-down React.js frontend)
+    - [notes-app-terraform](notes-app-terraform) (provision DynanoDB, S3, ...)
 - And submodules from [AnomalyInnovations](https://github.com/AnomalyInnovations) for the same tute
 
 > Note: both of these frontend and backend application/functions are just another typical software application, regardless of "Serverless Framework". You may use any tool to deploy these app/functions, regardless of "Serverless Framework".
 
 
 ```
+cd notes-app-terraform
+terraform plan
+terraform apply
+
 nvm list
 which node
 which npm
@@ -54,6 +62,18 @@ curl -s https://<endpoint-string>.execute-api.ap-southeast-2.amazonaws.com/dev/h
 }
 serverless invoke -f hello -l
 serverless invoke local -f hello -l
+
+...
+
+(if all done, tear down Serverless first)
+serverless remove --help
+serverless remove
+aws cloudformation list-stacks
+
+(if all good then tear down terraform)
+terraform destroy
+aws dynamodb list-tables
+aws s3 ls
 ```
 
 > [Serverless Framework AWS Deploying: How it works](https://serverless.com/framework/docs/providers/aws/guide/deploying/)

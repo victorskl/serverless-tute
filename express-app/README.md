@@ -15,12 +15,18 @@ vi serverless.yml
 
 serverless info
 serverless deploy
-
+serverless deploy list
 serverless invoke -f app --STAGE dev --path test.json | jq
+
+curl -s https://<random-string>.execute-api.ap-southeast-2.amazonaws.com/dev/api/info | jq
 
 aws lambda list-functions
 aws lambda invoke --function-name express-app-dev-app --payload '{ "path": "/api/info" }' response.json
 cat response.json | jq
 
-curl -s https://<random-string>.execute-api.ap-southeast-2.amazonaws.com/dev/api/info | jq
+aws cloudformation list-stacks
+aws apigateway get-rest-apis
+aws s3 ls | grep express-app
+
+serverless remove
 ```
