@@ -1,9 +1,9 @@
 # express-app
 
-Deploy an Express.js app to AWS Lambda using the [Serverless Framework](../SERVERLESS.md)
+Deploy an Express.js app to AWS Lambda using the [Serverless Framework](../../sls/README.md)
 - https://bitbucket.org/blog/deploy-an-express-js-app-to-aws-lambda-using-the-serverless-framework
 
-> plugin: serverless-http
+> plugin used: serverless-http
 - https://github.com/dougmoscrop/serverless-http
 - https://www.npmjs.com/package/serverless-http 
 

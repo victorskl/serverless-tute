@@ -1,8 +1,8 @@
 # flask-app
 
-Python Flask API app deploy into AWS Lambda through [Serverless Framework](../SERVERLESS.md)
+Python Flask API app deploy into AWS Lambda through [Serverless Framework](../../sls/README.md)
 
-> plugin: serverless-wsgi
+> plugin used: serverless-wsgi
 - https://github.com/logandk/serverless-wsgi
 
 

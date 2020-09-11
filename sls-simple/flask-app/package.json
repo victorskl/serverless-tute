@@ -4,6 +4,6 @@
   "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
-    "serverless-wsgi": "^1.7.4"
+    "serverless-wsgi": "^1.7.5"
   }
 }

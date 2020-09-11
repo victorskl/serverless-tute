@@ -18,18 +18,18 @@ Keywords:
 ### Serverless on AWS
 
 Basically, the key idea for running a serverless application on AWS means:
-- Write/create (usually _server-side_ business logic) functions in [AWS Lambda](https://aws.amazon.com/lambda/)
+- Write/create [server-side](https://en.wikipedia.org/wiki/Dynamic_web_page) business logic functions in [AWS Lambda](https://aws.amazon.com/lambda/)
 - Then use/route HTTP requests through [AWS API Gateway](https://aws.amazon.com/api-gateway/) 
 
 Optionally,
-- If you have a _client-side_ frontend that serve your Lambda backend functions, then you can compile static resources and serve it through [S3](https://aws.amazon.com/s3/) -- with or without [CloudFront](https://aws.amazon.com/cloudfront/), or [CloudFlare](https://www.cloudflare.com).
-- Your backend could be just pure compute function. Otherwise, some business logic implementation using persistence backend stack like [RDS](https://aws.amazon.com/rds/) for database, [DynamoDB](https://aws.amazon.com/dynamodb/) or [DocumentDB](https://aws.amazon.com/documentdb/) for NoSQL. And additionally a message queue like [SQS](https://aws.amazon.com/sqs/) or [EventBridge](https://aws.amazon.com/eventbridge/) in the mix!
+- If you have a [client-side](https://en.wikipedia.org/wiki/Dynamic_web_page) SPA frontend that XHR to your Lambda backend functions, then you can compile static resources and, serve this client-side SPA through [S3](https://aws.amazon.com/s3/) -- with or without [CloudFront](https://aws.amazon.com/cloudfront/), or [CloudFlare](https://www.cloudflare.com) as [CDN](https://en.wikipedia.org/wiki/Content_delivery_network).
+- Your backend could be just pure compute function. Otherwise, some business logic implementation or, data processing and transformation ([ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) for example) using persistence backend stack like [RDS](https://aws.amazon.com/rds/) for database, [DynamoDB](https://aws.amazon.com/dynamodb/) or [DocumentDB](https://aws.amazon.com/documentdb/) for NoSQL. And additionally a message queue like [SQS](https://aws.amazon.com/sqs/) or [EventBridge](https://aws.amazon.com/eventbridge/) in the mix!
 
 ### Approaches
 
-- Node.js based [Serverless Framework](SERVERLESS.md)
+- Node.js based [Serverless Framework](sls/README.md)
 - AWS SAM 
     - [Serverless Application Model](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)
-    - [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
+    - [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/key-tasks.html#key-tasks-sam)
 - Kubernetes Native Serverless Framework - https://kubeless.io
 - [Cloudflare Workers](https://www.cloudflare.com/en-au/products/cloudflare-workers/) 

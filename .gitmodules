@@ -1,6 +1,6 @@
 [submodule "AnomalyInnovations/serverless-stack-demo-api"]
-	path = AnomalyInnovations/serverless-stack-demo-api
+	path = sls/AnomalyInnovations/serverless-stack-demo-api
 	url = https://github.com/AnomalyInnovations/serverless-stack-demo-api.git
 [submodule "AnomalyInnovations/serverless-stack-demo-client"]
-	path = AnomalyInnovations/serverless-stack-demo-client
+	path = sls/AnomalyInnovations/serverless-stack-demo-client
 	url = https://github.com/AnomalyInnovations/serverless-stack-demo-client.git
