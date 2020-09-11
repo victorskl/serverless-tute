@@ -296,6 +296,6 @@ Validate [CloudFormation template][cfntpl]:
 
 ### SAM Template
 
-sls (serverless) to SAM template
+sls (serverless) to [SAM template](../sam)
 
 - https://github.com/sapessi/serverless-sam

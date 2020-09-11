@@ -28,8 +28,6 @@ Optionally,
 ### Approaches
 
 - Node.js based [Serverless Framework](sls/README.md)
-- AWS SAM 
-    - [Serverless Application Model](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)
-    - [AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/key-tasks.html#key-tasks-sam)
+- AWS [Serverless Application Model](sam/README.md)
 - Kubernetes Native Serverless Framework - https://kubeless.io
 - [Cloudflare Workers](https://www.cloudflare.com/en-au/products/cloudflare-workers/) 
