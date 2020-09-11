@@ -16,20 +16,20 @@
 - Under the hood, it transforms all deploy-able artifacts into `CloudFormation` on AWS.
 - If your production has already used `Terraform`, you might want to _limit_ the use of this tool to some extent. e.g. only to deploy Lambda functions and API Gateway resources. Be careful about which resources are managed by which tool, and not to step over inter-dependency of these resources to void cleaner tear down operation. Read [The definitive guide to using Terraform with the Serverless Framework](https://serverless.com/blog/definitive-guide-terraform-serverless/) for which does what and, best practices.
 - e.g. Through [`serverless.yaml` resources node](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/serverless.yml#L122), it overlaps:
-    - [terraform s3](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L31) vs [serverless s3](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/s3-bucket.yml)
-    - [terraform dynamodb](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L13) vs [serverless dynamodb](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/dynamodb-table.yml)
-    - [terraform cognito user pool](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L44) vs [serverless cognito user pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-user-pool.yml)
-    - [terraform cognito identity pool](https://github.com/victorskl/serverless-tute/blob/master/notes-app-terraform/main.tf#L62) vs [serverless cognito identity pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-identity-pool.yml)
+    - [terraform s3](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L31) vs [serverless s3](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/s3-bucket.yml)
+    - [terraform dynamodb](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L13) vs [serverless dynamodb](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/dynamodb-table.yml)
+    - [terraform cognito user pool](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L44) vs [serverless cognito user pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-user-pool.yml)
+    - [terraform cognito identity pool](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L62) vs [serverless cognito identity pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-identity-pool.yml)
     - ... so on, so ford!
 - **Separation of Concerns**: One consideration is that, let Terraform manage on _set-and-go_ part of infrastructure (e.g. Certificate, Database, etc, things that don't change often) and, let Serverless focus on _repetitive_ part of Lambda/FaaS deployment in CI/CD workflow.
 
 ## Walk-through
 
-- Tutorials from https://serverless-stack.com
+- Tutorials from https://serverless-stack.com But with more simplified version and fusion with terraform!
     - [notes-app-api](notes-app-api) (simple async/await/promise Node.js backend)
-    - [notes-app-client](notes-app-client) (strip-down React.js frontend)
-    - [notes-app-terraform](notes-app-terraform) (provision DynanoDB, S3, ...)
-- And submodules from [AnomalyInnovations](https://github.com/AnomalyInnovations) for the same tute
+    - [notes-app-client](notes-app-client) (React.js frontend)
+    - [notes-app-terraform](notes-app-terraform) (provision DynanoDB, S3, ... using terraform instead of sls or AWS Console)
+- Added git sub modules from [AnomalyInnovations](https://github.com/AnomalyInnovations) for the more original [notes-app demo](https://demo.serverless-stack.com)
 
 > Note: both frontend and backend application (lambda functions) are just another typical software application, regardless of "Serverless (sls) Framework". You may use any tool to deploy these applications, regardless of "Serverless (sls) Framework".
 
@@ -257,6 +257,7 @@ sls (serverless) to [CloudFormation template][cfntpl]
 sls print
 sls print --format json
 sls print --help
+SLS_DEBUG=* serverless print --STAGE dev
 
 sls package --help
 sls package
@@ -281,6 +282,7 @@ aws cloudformation validate-template --template-body file://.serverless/cloudfor
 }
 ```
 
+- https://stackoverflow.com/questions/55852551/serverless-framework-output-compiled-cloudformation
 - [Generate and Read Cloudformation template without deploying](https://forum.serverless.com/t/generate-and-read-cloudformation-template-without-deploying/4344/2)
 - https://www.serverless.com/framework/docs/providers/aws/cli-reference/package/
 
@@ -290,3 +292,10 @@ Validate [CloudFormation template][cfntpl]:
 - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-validate-template.html
 
 [cfntpl]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html
+
+
+### SAM Template
+
+sls (serverless) to SAM template
+
+- https://github.com/sapessi/serverless-sam
