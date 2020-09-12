@@ -1,6 +1,6 @@
 .private/
 private/
-.idea
+.idea/
 *.iml
 local.txt
 .DS_Store
@@ -15,3 +15,4 @@ terraform.tfvars
 
 node_modules/
 .serverless/
+.aws-sam/

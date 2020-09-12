@@ -563,3 +563,138 @@ aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
 aws logs delete-log-group --log-group-name '/aws/lambda/sam-app-HelloWorldFunction-1GC0G9QLICCNV'
 ```
+
+## Hello World `javaless`
+
+- Very much similar to § _Hello World `sam-app`_ ☝️ but in ☕️ Java.
+
+#### Create a serverless application
+
+- Also. Initialise using [AWS Toolkit for JetBrains IntelliJ IDEA](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/key-tasks.html#key-tasks-sam) as follows.
+
+![aws_toolkit_jetbrains_intellij_idea_1.png](img/aws_toolkit_jetbrains_intellij_idea_1.png)
+
+![aws_toolkit_jetbrains_intellij_idea_2.png](img/aws_toolkit_jetbrains_intellij_idea_2.png)
+
+#### Project Structure
+
+```
+tree javaless
+javaless
+├── HelloWorldFunction
+│   ├── pom.xml
+│   └── src
+│       ├── main
+│       │   └── java
+│       │       └── helloworld
+│       │           └── App.java
+│       └── test
+│           └── java
+│               └── helloworld
+│                   └── AppTest.java
+├── README.md
+├── events
+│   └── event.json
+└── template.yaml
+```
+
+💁‍♂️ _So `HelloWorldFunction` is created with typical maven project structure, basically. Therefore._
+
+```
+cd HelloWorldFunction
+mvn clean
+mvn validate
+mvn compile
+mvn test
+mvn package
+```
+
+_Hence, you can also use Maven Archetype to generate from command line to bootstrap the project structure._
+
+- [Bootstrapping a Java Lambda application with minimal AWS Java SDK startup time using Maven](https://aws.amazon.com/blogs/developer/bootstrapping-a-java-lambda-application-with-minimal-aws-java-sdk-startup-time-using-maven/)
+- https://github.com/aws/aws-sdk-java-v2/tree/master/archetypes/archetype-lambda
+
+💁‍♂️ _Anyway, we can do all `sam` CLI dance like from previous sections.️ But, our aim here is to explore AWS Toolkit integration with IDE. So, enjoy picture-torial!_
+
+#### Run (invoke) or debug the local version of a function
+
+<details>
+  <summary>Click to expand!</summary>
+    
+  ![aws_toolkit_jetbrains_intellij_idea_3.png](img/aws_toolkit_jetbrains_intellij_idea_3.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_4.png](img/aws_toolkit_jetbrains_intellij_idea_4.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_5.png](img/aws_toolkit_jetbrains_intellij_idea_5.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_6.png](img/aws_toolkit_jetbrains_intellij_idea_6.png)
+</details>
+
+#### Deploy a serverless application
+
+<details>
+  <summary>Click to expand!</summary>
+    
+  ![aws_toolkit_jetbrains_intellij_idea_7.png](img/aws_toolkit_jetbrains_intellij_idea_7.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_8.png](img/aws_toolkit_jetbrains_intellij_idea_8.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_9.png](img/aws_toolkit_jetbrains_intellij_idea_9.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_10.png](img/aws_toolkit_jetbrains_intellij_idea_10.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_11.png](img/aws_toolkit_jetbrains_intellij_idea_11.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_12.png](img/aws_toolkit_jetbrains_intellij_idea_12.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_13.png](img/aws_toolkit_jetbrains_intellij_idea_13.png)
+</details>
+
+#### Run (invoke) the remote version of a function
+
+<details>
+  <summary>Click to expand!</summary>
+    
+  ![aws_toolkit_jetbrains_intellij_idea_14.png](img/aws_toolkit_jetbrains_intellij_idea_14.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_15.png](img/aws_toolkit_jetbrains_intellij_idea_15.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_16.png](img/aws_toolkit_jetbrains_intellij_idea_16.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_17.png](img/aws_toolkit_jetbrains_intellij_idea_17.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_18.png](img/aws_toolkit_jetbrains_intellij_idea_18.png) 
+</details>
+
+💁‍♂️ _Of course, feel free to `curl` to the API endpoint and `sam logs` to observe!_
+
+```
+curl -s https://rc64cwhrr1.execute-api.ap-southeast-2.amazonaws.com/Prod/hello/ | jq
+sam logs -n javaless-app-HelloWorldFunction-1OPW73SCO4U5U
+```
+
+#### Clean Up
+
+🙋‍♂️ _Before proceeding clean up, let's observe what resources that are created. We shall use `aws` CLI for this! Note that this time we use existing S3 bucket for staging deployment artefact storage. So, there should only be one stack with name `javaless-app`. Very similarly, this stack should contain only Lambda, IAM role and API Gateway related resources. If you like, you can hop around checking on these resources with Console UI, too._
+
+```
+aws cloudformation list-stacks --stack-status-filter "CREATE_COMPLETE"
+aws cloudformation describe-stack-resources --stack-name javaless-app
+aws cloudformation get-template --stack-name javaless-app > cfn_processed_tpl.json
+```
+
+💪 _Cool! We could of course `aws cloudformation delete-stack` it. However, our focus is to be able to drive this through IDE. So._
+
+<details>
+  <summary>Click to expand!</summary>
+
+  ![aws_toolkit_jetbrains_intellij_idea_19.png](img/aws_toolkit_jetbrains_intellij_idea_19.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_20.png](img/aws_toolkit_jetbrains_intellij_idea_20.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_21.png](img/aws_toolkit_jetbrains_intellij_idea_21.png)
+  
+  ![aws_toolkit_jetbrains_intellij_idea_22.png](img/aws_toolkit_jetbrains_intellij_idea_22.png)
+</details>
+
+🎉 _Done! Final thought ... I must admit this AWS Toolkit integration with IDE is pretty neat! SAM CLI is cool too!_ ❤️
