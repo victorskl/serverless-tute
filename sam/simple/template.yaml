@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: simple-world
+
+Resources:
+  SimpleWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: python3.7
+      CodeUri: src/
+      Events:
+        SimpleWorld:
+          Type: Api
+          Properties:
+            Path: /simple
+            Method: get
+
+Outputs:
+  SimpleWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Simple World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/simple/"

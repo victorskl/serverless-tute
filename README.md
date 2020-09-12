@@ -27,7 +27,7 @@ Optionally,
 
 ### Approaches
 
-- Node.js based [Serverless Framework](sls/README.md)
-- AWS [Serverless Application Model](sam/README.md)
+- Node.js based [Serverless Framework](sls)
+- AWS [Serverless Application Model](sam)
 - Kubernetes Native Serverless Framework - https://kubeless.io
 - [Cloudflare Workers](https://www.cloudflare.com/en-au/products/cloudflare-workers/) 

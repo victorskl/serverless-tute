@@ -1,0 +1,144 @@
+{
+    "TemplateBody": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Outputs": {
+            "SimpleWorldApi": {
+                "Description": "API Gateway endpoint URL for Prod stage for Simple World function",
+                "Value": {
+                    "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/simple/"
+                }
+            }
+        },
+        "Description": "simple-world",
+        "Resources": {
+            "SimpleWorldFunctionSimpleWorldPermissionProd": {
+                "Type": "AWS::Lambda::Permission",
+                "Properties": {
+                    "Action": "lambda:InvokeFunction",
+                    "Principal": "apigateway.amazonaws.com",
+                    "FunctionName": {
+                        "Ref": "SimpleWorldFunction"
+                    },
+                    "SourceArn": {
+                        "Fn::Sub": [
+                            "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/${__Stage__}/GET/simple",
+                            {
+                                "__Stage__": "*",
+                                "__ApiId__": {
+                                    "Ref": "ServerlessRestApi"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "ServerlessRestApiDeployment081c5bf10a": {
+                "Type": "AWS::ApiGateway::Deployment",
+                "Properties": {
+                    "RestApiId": {
+                        "Ref": "ServerlessRestApi"
+                    },
+                    "Description": "RestApi deployment id: 081c5bf10af3d4d22feb08d7bf155cb844f42a98",
+                    "StageName": "Stage"
+                }
+            },
+            "ServerlessRestApiProdStage": {
+                "Type": "AWS::ApiGateway::Stage",
+                "Properties": {
+                    "DeploymentId": {
+                        "Ref": "ServerlessRestApiDeployment081c5bf10a"
+                    },
+                    "RestApiId": {
+                        "Ref": "ServerlessRestApi"
+                    },
+                    "StageName": "Prod"
+                }
+            },
+            "SimpleWorldFunctionRole": {
+                "Type": "AWS::IAM::Role",
+                "Properties": {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                            {
+                                "Action": [
+                                    "sts:AssumeRole"
+                                ],
+                                "Effect": "Allow",
+                                "Principal": {
+                                    "Service": [
+                                        "lambda.amazonaws.com"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "ManagedPolicyArns": [
+                        "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                    "Tags": [
+                        {
+                            "Value": "SAM",
+                            "Key": "lambda:createdBy"
+                        }
+                    ]
+                }
+            },
+            "SimpleWorldFunction": {
+                "Type": "AWS::Lambda::Function",
+                "Properties": {
+                    "Handler": "index.handler",
+                    "Code": {
+                        "S3Bucket": "aws-sam-cli-managed-default-samclisourcebucket-1wqpt2f15gasv",
+                        "S3Key": "simple-app/b1815a4f46d4a2e61eb5c092f4fcb010"
+                    },
+                    "Role": {
+                        "Fn::GetAtt": [
+                            "SimpleWorldFunctionRole",
+                            "Arn"
+                        ]
+                    },
+                    "Runtime": "python3.7",
+                    "Tags": [
+                        {
+                            "Value": "SAM",
+                            "Key": "lambda:createdBy"
+                        }
+                    ]
+                }
+            },
+            "ServerlessRestApi": {
+                "Type": "AWS::ApiGateway::RestApi",
+                "Properties": {
+                    "Body": {
+                        "info": {
+                            "version": "1.0",
+                            "title": {
+                                "Ref": "AWS::StackName"
+                            }
+                        },
+                        "paths": {
+                            "/simple": {
+                                "get": {
+                                    "x-amazon-apigateway-integration": {
+                                        "httpMethod": "POST",
+                                        "type": "aws_proxy",
+                                        "uri": {
+                                            "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SimpleWorldFunction.Arn}/invocations"
+                                        }
+                                    },
+                                    "responses": {}
+                                }
+                            }
+                        },
+                        "swagger": "2.0"
+                    }
+                }
+            }
+        }
+    },
+    "StagesAvailable": [
+        "Original",
+        "Processed"
+    ]
+}
