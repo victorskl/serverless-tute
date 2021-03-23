@@ -4,3 +4,6 @@
 [submodule "AnomalyInnovations/serverless-stack-demo-client"]
 	path = sls/AnomalyInnovations/serverless-stack-demo-client
 	url = https://github.com/AnomalyInnovations/serverless-stack-demo-client.git
+[submodule "sls/clear-lambda-storage"]
+	path = sls/clear-lambda-storage
+	url = https://github.com/epsagon/clear-lambda-storage.git

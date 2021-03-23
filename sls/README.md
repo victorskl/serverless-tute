@@ -299,3 +299,32 @@ Validate [CloudFormation template][cfntpl]:
 sls (serverless) to [SAM template](../sam)
 
 - https://github.com/sapessi/serverless-sam
+
+
+## Lambda Code Storage
+
+- https://epsagon.com/tools/free-lambda-code-storage-exceeded/
+
+Option 1: Turn off Lambda function deployment versioning in `serverless.yml`
+```
+provider:
+  name: aws
+  runtime: python3.6
+  versionFunctions: false
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+```
+
+Option 2: https://github.com/epsagon/clear-lambda-storage
+
+```
+cd clear-lambda-storage
+pipenv --python 3.7
+pipenv shell
+pipenv install
+
+python clear_lambda_storage.py --help
+
+export AWS_PROFILE=dev
+python clear_lambda_storage.py --regions us-east-1
+```
