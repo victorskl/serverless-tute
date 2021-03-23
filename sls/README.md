@@ -328,3 +328,11 @@ python clear_lambda_storage.py --help
 export AWS_PROFILE=dev
 python clear_lambda_storage.py --regions us-east-1
 ```
+
+Option 3: https://www.serverless.com/plugins/serverless-prune-plugin
+
+```
+yarn add serverless-prune-plugin --dev
+
+sls prune -n 2 --STAGE dev --dryRun
+```
