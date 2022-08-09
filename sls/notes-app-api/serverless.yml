@@ -12,7 +12,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs16.x
   stage: dev
   region: ap-southeast-2
   # To load environment variables externally
@@ -27,7 +27,6 @@ provider:
   # under process.env.
   environment:
     tableName: notes
-    sampleEnvVar: ${env:SAMPLE_ENV_VAR}
 
   # 'iamRoleStatements' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
