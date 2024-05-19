@@ -5,49 +5,60 @@ Python Flask API app deploy into AWS Lambda through [Serverless Framework](../..
 > plugin used: serverless-wsgi
 - https://github.com/logandk/serverless-wsgi
 
-
-Local Dev:
+Bootstrap:
 ```
 mkdir -p flask-app
 cd flask-app
 vi api.py
 vi local.py
 vi requirements.txt
+```
 
+Local Dev:
+```
+conda create -n serverless-tute python=3.11
+conda activate serverless-tute
 pip install -r requirements.txt
 python local.py
 curl -s localhost:5000/cats
+curl -s localhost:5000/dogs/1
 ```
 
 Serverless:
 ```
-vi serverless.yml
-serverless plugin install -n serverless-wsgi
+npm install
+npx sls plugin install -n serverless-wsgi
+npx sls plugin install -n serverless-python-requirements
 
-serverless info
-SLS_DEBUG=* serverless deploy
+npx sls doctor
+npx sls info
+npx sls deploy --debug="*"
+npx sls info
 
-serverless invoke -f api --STAGE dev --path test.json | jq
+npx sls invoke -f api --stage dev --path test.json | jq
+{
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "4"
+  },
+  "body": "Cats",
+  "isBase64Encoded": false
+}
 
-curl -s https://2edfs4egei.execute-api.us-east-1.amazonaws.com/dev/cats
+curl -s https://genkhgwtwk.execute-api.ap-southeast-2.amazonaws.com/dev/cats
+Cats%
 
-serverless wsgi serve -p 5000
+npx sls wsgi --help
+npx sls wsgi serve -p 5000
 curl -s localhost:5000/cats
+Cats%
 
-serverless wsgi --help
-    Plugin: ServerlessWSGI
-    wsgi .......................... Deploy Python WSGI applications
-    wsgi serve .................... Serve the WSGI application locally
-    wsgi install .................. Install WSGI handler and requirements for local use
-    wsgi clean .................... Remove cached requirements
-    wsgi command .................. Execute shell commands or scripts remotely
-    wsgi command local ............ Execute shell commands or scripts locally
-    wsgi exec ..................... Evaluate Python code remotely
-    wsgi exec local ............... Evaluate Python code locally
-    wsgi manage ................... Run Django management commands remotely
-    wsgi manage local ............. Run Django management commands locally
-    wsgi flask .................... Run Flask CLI commands remotely
-    wsgi flask local .............. Run Flask CLI commands locally
+aws cloudformation list-stacks
+aws lambda list-functions
+aws apigateway get-rest-apis
+aws logs describe-log-groups --query 'logGroups[*].logGroupName'
+aws s3 ls
 
-SLS_DEBUG=* serverless remove
+npx sls remove --debug="*"
 ```
