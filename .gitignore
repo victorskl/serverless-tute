@@ -2,8 +2,9 @@
 private/
 .idea/
 *.iml
-local.txt
+.local/local.txt
 .DS_Store
+.local/
 
 .terraform
 *.tfstate

@@ -7,6 +7,8 @@ Serverless (Functions as a Service -- FaaS) tute
 - [Functions as a Service](https://en.wikipedia.org/wiki/Function_as_a_service)
 - [What is Serverless?](https://serverless-stack.com/chapters/what-is-serverless.html)
 - [What is AWS Lambda?](https://serverless-stack.com/chapters/what-is-aws-lambda.html)
+- https://martinfowler.com/articles/serverless.html
+- https://serverlessland.com
 
 Keywords:
 

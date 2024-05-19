@@ -21,8 +21,8 @@
     - [terraform dynamodb](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L17) vs [serverless dynamodb](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/dynamodb-table.yml)
     - [terraform cognito user pool](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L48) vs [serverless cognito user pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-user-pool.yml)
     - [terraform cognito identity pool](https://github.com/victorskl/serverless-tute/blob/master/sls/notes-app-terraform/main.tf#L66) vs [serverless cognito identity pool](https://github.com/AnomalyInnovations/serverless-stack-demo-api/blob/master/resources/cognito-identity-pool.yml)
-    - ... so on, so ford!
-- **Separation of Concerns**: One consideration is that, let Terraform manage on _set-and-go_ part of infrastructure (e.g. Certificate, Database, etc, things that don't change often) and, let Serverless focus on _repetitive_ part of Lambda/FaaS deployment in CI/CD workflow.
+    - ... so on, so forth!
+- **Separation of Concerns**: One consideration is that, let Terraform manage on _set-and-go_ part of stateful infrastructure (e.g. Certificate, Database, etc, things that don't change often) and, let Serverless focus on _repetitive_ (stateless, self-mutation) part of Lambda/FaaS deployment in CI/CD workflow.
 
 ## Walk-through
 
@@ -49,6 +49,8 @@ npx serverless help
 
 (start local API server)
 npx serverless offline start
+
+curl -s http://localhost:3000/dev/hello | jq
 
 ...
 
@@ -259,11 +261,11 @@ sls (serverless) to [CloudFormation template][cfntpl]
 npx sls print
 npx sls print --format json
 npx sls print --help
-SLS_DEBUG=* npx serverless print --STAGE dev
+npx sls print --debug="*" --stage dev
 
 npx sls package --help
 npx sls package
-SLS_DEBUG=* npx serverless package --STAGE dev
+npx sls package --debug="*" --stage dev
 
 tree .serverless/
 .serverless/
@@ -310,16 +312,16 @@ Option 1: https://www.serverless.com/plugins/serverless-prune-plugin
 ```
 yarn add serverless-prune-plugin --dev
 
-npx sls prune -n 2 --STAGE dev --dryRun
+npx sls prune -n 2 --stage dev --dryRun
 ```
 
-Option 2: Turn off Lambda function deployment versioning in `serverless.yml`
-- https://epsagon.com/tools/free-lambda-code-storage-exceeded/
+Option 2: Turn off Lambda function deployment versioning `versionFunctions: false`  in `serverless.yml`
+- https://www.serverless.com/framework/docs-providers-aws-guide-functions#versioning-deployed-functions
 
 ```
 provider:
   name: aws
-  runtime: python3.6
+  runtime: python3.12
   versionFunctions: false
   region: ${opt:region, 'us-east-1'}
   stage: ${opt:stage, 'dev'}
@@ -329,7 +331,7 @@ Option 3: https://github.com/epsagon/clear-lambda-storage
 
 ```
 cd clear-lambda-storage
-pipenv --python 3.7
+pipenv --python 3.12
 pipenv shell
 pipenv install
 
