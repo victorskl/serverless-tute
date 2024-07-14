@@ -15,6 +15,9 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "serverless": "^3.38.0"
+    "serverless": "^3.39.0"
+  },
+  "overrides": {
+    "braces": "^3.0.3"
   }
 }

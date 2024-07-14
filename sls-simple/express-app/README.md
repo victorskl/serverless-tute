@@ -19,6 +19,7 @@ Getting started:
 ```
 npm install
 
+npx sls doctor
 npx sls deploy --debug="*"
 npx sls deploy list
 npx sls invoke -f app --stage dev --path test.json | jq
